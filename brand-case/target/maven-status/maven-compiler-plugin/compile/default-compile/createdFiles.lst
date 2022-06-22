@@ -1,0 +1,13 @@
+com\deodeo\pojo\Type.class
+com\deodeo\pojo\User.class
+com\deodeo\web\productservlet\ProductServlet.class
+com\deodeo\web\productservlet\BaseServlet.class
+com\deodeo\mapper\ProductMapper.class
+com\deodeo\web\productservlet\UserServlet.class
+com\deodeo\service\impl\ProductServiceImpl.class
+com\deodeo\pojo\Product.class
+com\deodeo\service\UserService.class
+com\deodeo\util\SqlSessionFactoryUtils.class
+com\deodeo\service\ProductService.class
+com\deodeo\mapper\UserMapper.class
+com\deodeo\service\impl\UserServiceImpl.class

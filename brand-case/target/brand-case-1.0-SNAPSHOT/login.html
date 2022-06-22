@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style>
+        body {
+            background-image: url(login2.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div id="login">
+        <el-button type="text"
+                   style="margin-top:18%;margin-left:50%;"
+                   @click="dialogFormVisible = true" c>
+<!--            <el-image :src="login.jpg"></el-image>-->
+<!--            <img src="login.jpg">-->
+            <i class="el-icon-user-solid"></i>
+            <h1>登录</h1>
+        </el-button>
+
+        <el-dialog title="用户登录" :visible.sync="dialogFormVisible"width="30%">
+            <el-form :model="user">
+                <el-form-item label="账号" :label-width="formLabelWidth">
+                    <el-input v-model="user.account" autocomplete="off" placeholder="请输入账号"
+                              style="width: 260px"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" :label-width="formLabelWidth">
+                    <el-input placeholder="请输入密码"
+                              v-model="user.password"
+                              show-password
+                              style="width: 260px"></el-input>
+                </el-form-item>
+
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="success" @click="add">注册</el-button>
+                <el-button type="primary" @click="login">确 定</el-button>
+            </div>
+        </el-dialog>
+    </div>
+
+    <div id = "add">
+        <el-dialog
+                title="注册账号"
+                :visible.sync="dialogVisible"
+                width="30%">
+
+            <el-form ref="form" :model="updataUser" label-width="80px">
+                <el-form-item label="昵称">
+                    <el-input v-model="updataUser.userName"></el-input>
+                </el-form-item>
+
+                <el-form-item label="账号">
+                    <el-input v-model="updataUser.account"></el-input>
+                </el-form-item>
+
+                <el-form-item label="密码">
+                    <el-input v-model="updataUser.password"></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="addUser">提交</el-button>
+                    <el-button @click="dialogVisible = false">取消</el-button>
+                </el-form-item>
+            </el-form>
+
+        </el-dialog>
+
+    </div>
+
+</div>
+</body>
+
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script src="js/axios-0.18.0.js"></script>
+
+<script>
+    var vue = new Vue({
+        el: "#app",
+        methods: {
+            add(){
+                var _this = this;
+                _this.dialogFormVisible = false;
+                _this.dialogVisible = true;
+            },
+            addUser(){
+                var _this = this;
+                // 发送ajax请求，添加数据
+                axios({
+                    method: "post",
+                    url: "http://localhost:8080/brand-case/user/addUser",
+                    data:_this.updataUser
+                }).then(function (resp) {
+                    if (resp.data == "success") {
+                        //成功
+                        //关闭窗口
+                        _this.$message({
+                        message: '注册成功',
+                            type: 'success'
+                        });
+                        _this.dialogVisible = false;
+                        _this.dialogFormVisible = true;
+
+                    }
+
+                })
+            },
+
+            login() {
+                var _this = this;
+                // 发送ajax请求，添加数据
+                axios({
+                    method: "post",
+                    url: "http://localhost:8080/brand-case/user/select",
+                    data:_this.user
+                }).then(function (resp) {
+                    if (resp.data == "success") {
+                        //登录成功
+                        //关闭窗口
+                        _this.dialogFormVisible = false;
+                        document.location.href="product.html";
+                    }else {
+                        _this.$message({
+                            message: '密码或账号错误',
+                            type: 'error'
+                        });
+                    }
+                })
+            },
+
+        },
+        data() {
+            return {
+                dialogVisible: false,
+                dialogFormVisible: false,
+                user: {
+                    id: '',
+                    username: '',
+                    password: '',
+                    account: '',
+                },
+                updataUser: {
+                    id: '',
+                    userName: '',
+                    password: '',
+                    account: '',
+                },
+                form: {
+                    name: '',
+                    region: '',
+                    password: '',
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
+                },
+                formLabelWidth: '100px'
+            };
+        }
+    })
+</script>
+</html>
